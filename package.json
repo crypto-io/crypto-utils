@@ -1,6 +1,6 @@
 {
-  "name": "crypto-utils",
-  "version": "0.1.0-alpha.1",
+  "name": "crypto-io-utils",
+  "version": "0.1.0-alpha.2",
   "description": "Utility's used in crypto-modules.",
   "main": "dist/utils-node.js",
   "module": "dist/utils-es.js",
