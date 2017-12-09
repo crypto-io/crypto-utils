@@ -1,0 +1,26 @@
+{
+  "name": "crypto-utils",
+  "version": "0.1.0-alpha.1",
+  "description": "Utility's used in crypto-modules.",
+  "main": "dist/utils-node.js",
+  "module": "dist/utils-es.js",
+  "repository": "https://github.com/crypto-io/crypto-utils",
+  "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
+  "license": "copyrighted",
+  "private": false,
+  "backed": {
+    "bundles": [
+      {
+        "src": "src/index.js",
+        "dest": "dist/utils.js",
+        "format": "es"
+      },
+      {
+        "src": "src/index.js",
+        "dest": "dist/utils.js",
+        "format": "cjs"
+      }
+    ],
+    "uglify": true
+  }
+}

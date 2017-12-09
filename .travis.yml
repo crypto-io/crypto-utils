@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+- '7'
+- '8'
+- '9'
+cache:
+  yarn: true
+before_script:
+- npm install -g backed-cli
+- npm install
+- backed -b
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: vandeurenglenn@gmail.com
+  api_key:
+    secure: bavcpLgY4KiQjeNZ2GLsPqLQRujo0IC0AOsZYPNre6zyZZbphQS4DGgj0KThwaQcYALgSs6xedJNH4GWRXw6dWpNYgS84uUG1fQ93A1tpUcj1Z6uckIzTHwooZwDiSZ0KM9f+OhkGuVv3VKUM18YOaievoH2IXHsl+WjzgXEMOtV5zvuhe7TZPp48e8U/Bp54+JdKWkhOVxWaCEXBUcX2cVjHPX5ueQJHO45mijrx0oXp6xxom9umkNC2JaTLCe2sCVE5CAhY2CYc8xmTS6PJ5uZI6s9PQP7piF0nM8MXZ/HtWdD0uu7s6/OkECMWGphHbyrrnDSTWSCTsnV14mdmtQuAJFQFA8EXduSJVIrBRg45iL7Gpd3OvTgKvTppx/08sze4AzdJvmsKnfnu4j32XrR0v4zLWq3yPcWgF6kWao+ab4t3IaEajp2JiZUbls1MLgBRJF1URyLE0DKLNwv+gmtfRa5eLPshaUlNe0gpVFisHNoA+WOcU3V8Kn9LIZ/vrzaD3174q6hk9oEOC6yXOzANUHm168JUrWbHa4RpNnmuqxb7zzz4yGvCF9dKhr/mIhN+Ya/8g+cxJiC2RJ1CaxNh79O56owNxrHB1soIKhE92OjOvVGH7f7NtgrftvXrD58niRyJsOMtpOblc8cOfiAjsOgcHGFldqI+eS6n0U=
+  on:
+    tags: true
+    repo: crypto-io/crypto-utils
