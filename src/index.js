@@ -24,7 +24,7 @@ export const write = (path, data) => {
       if (error) {
         if (error.code === 'ENOENT') {
           mkdirpath(path);
-          return write(path, data);
+          return write(path, data).then(() => resolve());
         }
         reject(error);
       }
