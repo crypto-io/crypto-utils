@@ -1,5 +1,6 @@
 import { writeFile, readdirSync, mkdirSync, readFile } from 'fs';
 import { dirname } from 'path';
+import cryptoJS from 'crypto-js';
 
 export const direxists = dir => {
   try {
@@ -44,8 +45,20 @@ export const read = (path, as='string') => new Promise((resolve, reject) =>
     resolve(data)
   }));
 
+export const encrypt = (data, key) => new Promise((resolve, reject) => {
+  if (!data || !key) reject(`${key ? 'data' : 'key'} missing`);
+  else resolve(cryptoJS.AES.encrypt(data, key));
+});
+
+export const decrypt = (cipher, key) => new Promise((resolve, reject) => {
+  if (!cipher || !key) reject(`${key ? 'cipher' : 'key'} missing`);
+  else resolve(cryptoJS.AES.decrypt(cipher.toString(), key).toString(cryptoJS.enc.Utf8));
+});
+
 export default {
   write,
   direxists,
-  read
+  read,
+  encrypt,
+  decrypt
 };

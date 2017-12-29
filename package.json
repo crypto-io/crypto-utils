@@ -6,7 +6,7 @@
   "module": "dist/utils-es.js",
   "repository": "https://github.com/crypto-io/crypto-utils",
   "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
-  "license": "copyrighted",
+  "license": "MIT",
   "private": false,
   "backed": {
     "bundles": [
@@ -22,5 +22,8 @@
       }
     ],
     "uglify": true
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
   }
 }
