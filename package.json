@@ -1,9 +1,10 @@
 {
   "name": "crypto-io-utils",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "description": "Utility's used in crypto-modules.",
   "main": "dist/utils-node.js",
   "module": "dist/utils-es.js",
+  "browser": "dist/utils.js",
   "repository": "https://github.com/crypto-io/crypto-utils",
   "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
   "license": "MIT",
@@ -13,17 +14,38 @@
       {
         "src": "src/index.js",
         "dest": "dist/utils.js",
-        "format": "es"
+        "format": "iife",
+        "moduleName": "cryptoUtils",
+        "plugins": {
+          "node-resolve": {},
+          "commonjs": {}
+        }
       },
       {
         "src": "src/index.js",
         "dest": "dist/utils.js",
-        "format": "cjs"
+        "format": "es",
+        "moduleName": "cryptoUtils",
+        "plugins": {
+          "node-resolve": {},
+          "commonjs": {}
+        }
+      }, {
+        "src": "src/index.js",
+        "dest": "dist/utils.js",
+        "format": "cjs",
+        "plugins": {
+          "node-resolve": {},
+          "commonjs": {}
+        }
       }
-    ],
-    "uglify": true
+    ]
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1"
+  },
+  "devDependencies": {
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0"
   }
 }
