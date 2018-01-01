@@ -1,6 +1,6 @@
 import { writeFile, readdirSync, mkdirSync, readFile } from 'fs';
 import { dirname } from 'path';
-import cryptoJS from 'crypto-js';
+import * as AES from './../node_modules/crypto-js/aes.js';
 
 export const direxists = dir => {
   try {
