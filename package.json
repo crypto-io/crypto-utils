@@ -1,6 +1,6 @@
 {
   "name": "crypto-io-utils",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-rc",
   "description": "Utility's used in crypto-modules.",
   "main": "dist/utils-node.js",
   "module": "dist/utils-es.js",
@@ -12,7 +12,11 @@
     "bundles": [{
         "src": "src/index.js",
         "dest": "dist/utils.js",
-        "format": "es"
+        "format": "es",
+        "plugins": {
+          "node-resolve": {},
+          "commonjs": {}
+        }
       }, {
         "src": "src/index.js",
         "dest": "dist/utils.js",
