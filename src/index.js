@@ -1,7 +1,7 @@
-import { writeFile, readdirSync, mkdirSync, readFile } from 'fs';
-import { dirname } from 'path';
-import * as AES from './../node_modules/crypto-js/aes.js';
-import * as enc from './../node_modules/crypto-js/enc-base64.js';
+import { writeFile, readdirSync, mkdirSync, rmdirSync, readFile, unlinkSync } from 'fs';
+import { dirname, join } from 'path';
+import AES from './../node_modules/crypto-js/aes.js';
+import ENC from './../node_modules/crypto-js/enc-utf8.js';
 
 export const direxists = dir => {
   try {
@@ -46,6 +46,33 @@ export const read = (path, as='string') => new Promise((resolve, reject) =>
     resolve(data)
   }));
 
+export const remove = path => new Promise((resolve, reject) => {
+  try {
+    unlinkSync(path);
+    resolve();
+  } catch (error) {
+    if (error.code === 'EPERM') {
+      try {
+        rmdirSync(path);
+        resolve()
+      } catch (error) {
+        if (error.code === 'ENOTEMPTY') {
+          const files = readdirSync(path);
+          for (let file of files) {
+            file = join(path, file);
+            unlinkSync(file)
+          }
+          return remove(path).then(() => {resolve()})
+        } else {
+          reject(error)
+        }
+      }
+    } else {
+      reject(error)
+    }
+  }
+});
+
 export const encrypt = (data, key) => new Promise((resolve, reject) => {
   if (!data || !key) reject(`${key ? 'data' : 'key'} missing`);
   else resolve(AES.encrypt(data, key));
@@ -53,13 +80,14 @@ export const encrypt = (data, key) => new Promise((resolve, reject) => {
 
 export const decrypt = (cipher, key) => new Promise((resolve, reject) => {
   if (!cipher || !key) reject(`${key ? 'cipher' : 'key'} missing`);
-  else resolve(AES.decrypt(cipher.toString(), key).toString(enc));
+  else resolve(AES.decrypt(cipher.toString(), key).toString(ENC));
 });
 
 export default {
-  write,
-  direxists,
   read,
+  write,
+  remove,
+  direxists,
   encrypt,
   decrypt
 };

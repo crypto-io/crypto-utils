@@ -8,8 +8,12 @@
   "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "test": "node test.js"
+  },
   "backed": {
-    "bundles": [{
+    "bundles": [
+      {
         "src": "src/index.js",
         "dest": "dist/utils.js",
         "format": "es",
@@ -17,7 +21,8 @@
           "node-resolve": {},
           "commonjs": {}
         }
-      }, {
+      },
+      {
         "src": "src/index.js",
         "dest": "dist/utils.js",
         "format": "cjs",
@@ -33,6 +38,7 @@
   },
   "devDependencies": {
     "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "tape": "^4.8.0"
   }
 }
