@@ -1,4 +1,4 @@
-import { writeFile, readdirSync, mkdirSync, rmdirSync, readFile, unlinkSync } from 'fs';
+import { writeFile, readdirSync, mkdirSync, rmdirSync, readFile, unlinkSync, existsSync } from 'fs';
 import { dirname, join } from 'path';
 import AES from './../node_modules/crypto-js/aes.js';
 import ENC from './../node_modules/crypto-js/enc-utf8.js';
@@ -6,6 +6,15 @@ import ENC from './../node_modules/crypto-js/enc-utf8.js';
 export const direxists = dir => {
   try {
     readdirSync(dir);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
+export const exists = path => {
+  try {
+    existsSync(path);
   } catch (e) {
     return false;
   }
@@ -88,6 +97,7 @@ export default {
   write,
   remove,
   direxists,
+  exists,
   encrypt,
   decrypt
 };
