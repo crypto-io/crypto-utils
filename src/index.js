@@ -47,12 +47,15 @@ export const write = (path, data) => {
 export const read = (path, as='string') => new Promise((resolve, reject) =>
   readFile(path, (error, data) => {
     if (error) reject(error);
-    else if (as === 'buffer') return resolve(data)
-    else if(as === 'string' || as === 'map') data = data.toString();
-    else if (as === 'json') data = JSON.parse(data);
-    else if (as === 'map') data = new Map(data);
+    else try {
+      if(as === 'string' || as === 'map') data = data.toString();
+      else if (as === 'json') data = JSON.parse(data);
+      else if (as === 'map') data = new Map(data);
 
-    resolve(data)
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
   }));
 
 export const remove = path => new Promise((resolve, reject) => {
@@ -63,7 +66,7 @@ export const remove = path => new Promise((resolve, reject) => {
     if (error.code === 'EPERM') {
       try {
         rmdirSync(path);
-        resolve()
+        resolve();
       } catch (error) {
         if (error.code === 'ENOTEMPTY') {
           const files = readdirSync(path);
@@ -73,11 +76,11 @@ export const remove = path => new Promise((resolve, reject) => {
           }
           return remove(path).then(() => {resolve()})
         } else {
-          reject(error)
+          reject(error);
         }
       }
     } else {
-      reject(error)
+      reject(error);
     }
   }
 });

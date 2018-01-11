@@ -1,21 +1,47 @@
-const test = require('tape');
+const test = require('blue-tape');
 const { encrypt, decrypt, read, write, remove, direxists } = require('./dist/utils-node.js');
-test('ready', tape => {
-  tape.plan(4);
-  encrypt('data', 'uuu').then(cipher => {
-    decrypt(cipher, 'uuu').then(data => tape.equal('data', data));
+(async () => {
+  await test('encrypt/decrypt', async tape => {
+    tape.plan(1);
+    const cipher = await encrypt('data', 'uuu');
+    const data = await decrypt(cipher, 'uuu');
+    tape.equal('data', data);
   });
 
-  write('hello/hello.txt', 'some tekst').then(() => {
-    const exists = direxists('hello');
-    tape.equal(true, exists, 'create file/directory');
+  await test('ready', async tape => {
+    tape.plan(1);
 
-    read('hello/hello.txt', 'string').then(data => {
-      tape.equal('some tekst', data, 'read from file');
-      remove('hello').then(() => {
-        const exists = direxists('hello')
-        tape.equal(exists, false, 'remove directory');
-      });
-    });
-  })
-})
+    try {
+      await write('hello/hello.txt', 'some tekst');
+      await write('no-object.json', '[object object]');
+
+      tape.ok('create file/directory');
+    } catch (e) {
+      tape.fail(e)
+    }
+  });
+
+
+  await test('read', async tape => {
+    tape.plan(2);
+    tape.shouldFail(read('no-object.json', 'json'), 'returns errors for read');
+
+    const data = await read('hello/hello.txt', 'string')
+    tape.equal('some tekst', data, 'read from file');
+  });
+
+  await test('direxists', async tape => {
+    tape.plan(1);
+    const exists = direxists('hello');
+    tape.equal(exists, true, 'directory exists');
+  });
+
+  await test('remove', async tape => {
+    tape.plan(1);
+    await remove('hello')
+    await remove('no-object.json')
+    const exists = direxists('hello');
+    tape.equal(exists, false, 'remove directory');
+  });
+
+})()
