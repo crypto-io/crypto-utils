@@ -63,7 +63,7 @@ export const remove = path => new Promise((resolve, reject) => {
     unlinkSync(path);
     resolve();
   } catch (error) {
-    if (error.code === 'EPERM') {
+    if (error.code === 'EPERM' || error.code === 'EISDIR') {
       try {
         rmdirSync(path);
         resolve();
