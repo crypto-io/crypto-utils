@@ -95,6 +95,23 @@ export const decrypt = (cipher, key) => new Promise((resolve, reject) => {
   else resolve(AES.decrypt(cipher.toString(), key).toString(ENC));
 });
 
+export const trymore = (context, params, count = 0) => new Promise(async (resolve, reject) => {
+    const max = (params.length - 1);
+    const parts = params[count].split('|');
+    try {
+      const file = await context(parts[0], parts[1]);
+      resolve(file);
+    } catch (error) {
+      if (count < max) {
+        count++;
+        await trymore(context, params, count).then(file => resolve(file));
+      } else {
+        reject(error)
+        throw error;
+      }
+    }
+});
+
 export default {
   read,
   write,
@@ -102,5 +119,6 @@ export default {
   direxists,
   exists,
   encrypt,
-  decrypt
+  decrypt,
+  trymore
 };

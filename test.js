@@ -1,5 +1,5 @@
 const test = require('blue-tape');
-const { encrypt, decrypt, read, write, remove, direxists } = require('./dist/utils-node.js');
+const { encrypt, decrypt, read, write, remove, direxists, trymore } = require('./dist/utils-node.js');
 (async () => {
   await test('encrypt/decrypt', async tape => {
     tape.plan(1);
@@ -21,6 +21,11 @@ const { encrypt, decrypt, read, write, remove, direxists } = require('./dist/uti
     }
   });
 
+  await test('trymore', async tape => {
+    tape.plan(1)
+    const data = await trymore(read, ['hello|string', 'hello/hello.txt|string']);
+    tape.equal('some tekst', data, 'trymore');
+  })
 
   await test('read', async tape => {
     tape.plan(2);
