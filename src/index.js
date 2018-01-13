@@ -3,7 +3,7 @@ import { dirname, join } from 'path';
 import AES from './../node_modules/crypto-js/aes.js';
 import ENC from './../node_modules/crypto-js/enc-utf8.js';
 
-export const direxists = dir => {
+export const direxists = (dir = '') => {
   try {
     readdirSync(dir);
   } catch (e) {
@@ -21,10 +21,10 @@ export const exists = path => {
   return true;
 }
 
-export const mkdirpath = path => {
+export const mkdir = path => {
   const dir = dirname(path);
   if (!direxists(dir)) {
-    mkdirpath(dir)
+    mkdir(dir)
     mkdirSync(dir)
   }
 }
@@ -34,7 +34,7 @@ export const write = (path, data) => {
     writeFile(path, data, (error, d) => {
       if (error) {
         if (error.code === 'ENOENT') {
-          mkdirpath(path);
+          mkdir(path);
           return write(path, data).then(() => resolve());
         }
         reject(error);
@@ -127,5 +127,6 @@ export default {
   exists,
   encrypt,
   decrypt,
-  trymore
+  trymore,
+  mkdir
 };
