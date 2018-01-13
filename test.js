@@ -22,9 +22,15 @@ const { encrypt, decrypt, read, write, remove, direxists, trymore } = require('.
   });
 
   await test('trymore', async tape => {
-    tape.plan(1)
-    const data = await trymore(read, ['hello|string', 'hello/hello.txt|string']);
-    tape.equal('some tekst', data, 'trymore');
+    tape.plan(1);
+    try {
+      const data = await trymore(read, ['hello|string', 'hello/hello.txt|string']);
+      tape.equal('some tekst', data[1], 'trymore');
+    } catch (e) {
+      tape.fail(e)
+    } finally {
+
+    }
   })
 
   await test('read', async tape => {
