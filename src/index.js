@@ -105,10 +105,10 @@ export const trymore = (context, params, count = 0) => new Promise(async (resolv
     if (count < max) {
       count++;
       try {
-        await trymore(context, params, count);
+        resolve(await trymore(context, params, count));
       } catch (error) {
         if (count < max) {
-          await trymore(context, params, count);
+          resolve(await trymore(context, params, count));
         } else {
           reject(error)
         }
